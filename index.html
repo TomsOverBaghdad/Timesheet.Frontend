@@ -5,22 +5,29 @@
     <title>Timesheet</title>
     <!-- bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/app/bootstrap-overrides.css" rel="stylesheet">
+    <link href="/bower_components/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet">
+    
     <!-- font-awesome -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="/app/bootstrap-overrides.css">
+    <link rel="stylesheet" href="/app/app.css">
     <!-- <link href="./app/app.css" rel="stylesheet"> -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body ng-app='aviProject'>
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" ui-sref="#">Timesheet</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a ui-sref="home">Home</a></li>
-            <!-- <li><a ui-sref="about">About</a></li> -->
+        <!-- <li><a ui-sref="about">About</a></li> -->
+        </ul>
+        <ul class="nav navbar-nav pull-right">
+            <li><a ui-sref="login">Login</a></li>
+        <!-- <li><a ui-sref="about">About</a></li> -->
         </ul>
     </nav>
 
@@ -31,12 +38,14 @@
     <!-- 3rd party lib -->
     <script src="/bower_components/angular/angular.min.js"></script>
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         
     <!-- app -->
     <script src="/app/app.js"></script>
     <script src="/app/routes.js"></script>
-    <script src="/app/home/homeController.js"></script>
-    <script src="/app/home/homeService.js"></script>
+    <script src="/app/home/home.controller.js"></script>
+    <script src="/app/home/home.service.js"></script>
 
 </body>
 </html>

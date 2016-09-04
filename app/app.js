@@ -1,6 +1,6 @@
 (function () {
     'use strict';
 
-    angular.module('aviProject', ['ui.router']);
+    angular.module('aviProject', ['ui.router', 'ui.bootstrap']);
 
 }());
