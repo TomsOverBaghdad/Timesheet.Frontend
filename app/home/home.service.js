@@ -9,8 +9,18 @@
         var service = {};
 
         service.LogTime = LogTime;
+        service.GetProgramInfo = GetProgramInfo;
 
         return service;
+
+        function GetProgram(programId){
+            return $http.get('localhost:3000/')
+                .then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    return $q.reject(response);
+                });
+        }
 
         function LogTime(userEmail) {
             return {
