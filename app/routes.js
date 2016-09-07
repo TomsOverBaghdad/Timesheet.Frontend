@@ -14,7 +14,7 @@
                 // })
                 .state('home', {
                 // .state('program.timesheet', {
-                    url: '/program/{programId:int}/timesheet',
+                    url: '/timesheet/{timesheetId:int}',
                     templateUrl: 'app/home/home.html',                    
                     controller: 'homeCtrl',
                     controllerAs: 'homeCtrl'

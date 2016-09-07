@@ -8,13 +8,14 @@
     function homeService($http, $q) {
         var service = {};
 
-        service.LogTime = LogTime;
-        service.GetProgramInfo = GetProgramInfo;
+        service.GetTimesheet = GetTimesheet;
+        service.GetLastLogged = GetLastLogged;
+        service.SignInSignOut = SignInSignOut;
 
         return service;
 
-        function GetProgram(programId){
-            return $http.get('localhost:3000/')
+        function GetTimesheet(timesheetId){
+            return $http.get('localhost:3000/api/timesheet/' + timesheetId)
                 .then(function (response) {
                     return response.data;
                 }, function (response) {
@@ -22,17 +23,23 @@
                 });
         }
 
-        function LogTime(userEmail) {
-            return {
-                        loggedIn: true,
-                        time: "4 hours"
-                    };
-            // return $http.get('./api/Organization/GetRequests/')
-            //     .then(function (response) {
-            //         return response.data;
-            //     }, function (response) {
-            //         return $q.reject(response);
-            //     });
+        function GetLastLogged(userEmail) {
+            return $http.get('localhost:3000/api/timesheet/GetLastLogged/' + userEmail)
+                .then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    return $q.reject(response);
+                });
+        } 
+
+        function SignInSignOut(timesheetId, userEmail, userComments) {
+            var params = JSON.stringify({comments: userComments});
+            return $http.post('localhost:3000/api/timesheet/' + timesheetId + '/Log/' + userEmail, params)
+                .then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    return $q.reject(response);
+                });
         }   
     }
 

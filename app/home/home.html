@@ -21,4 +21,18 @@
     	
     	<a ng-if="homeCtrl.status.loading" class="fa fa-lg fa-spinner fa-spin"></a>
     <div>
+    <button class="btn btn-warning" type="button" ng-click="homeCtrl.commentsModal()">comment</button>
 </div>
+<script type="text/ng-template" id="commentsModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">What did you do today?</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <textarea style="width: 268px; height: 80px;" ng-model="homeCtrl.comments"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="homeCtrl.ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="homeCtrl.cancel()">Cancel</button>
+    </div>
+</script>
+
