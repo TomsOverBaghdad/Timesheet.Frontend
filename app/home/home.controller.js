@@ -34,52 +34,53 @@
         function TrySignInSignOut(){
             homeService.GetLastLogged(vm.userEmail).then(function(lastLog){
                 if(lastLog != null && lastLogged.DTEndLog == null && lastLogged.TimesheetId != req.params.timesheetId) {
-                    // "Did not log out from another timesheet"
+                    toastr.error('Did not log out from another timesheet', 'Error:');
+                }else if(lastLogged.DTEndLog){
+                    //sign in
+                    signInSignOut();
+                }else{
+                    //signout, allow for comments
+                    showModal();
                 }
-                // if()
-                // signInSignOut();
             }, function(err){
                 console.log(err);
             });
         }    
 
         function signInSignOut(){
-            homeService.SignInSignOut(userEmail, comment).then(function(response){
-
+            homeService.SignInSignOut(vm.userEmail, vm.comments).then(function(response){
+                if(response.SignIn){
+                    toastr.success("Dont forget to sign out when you're done!", 'Signed In!');
+                }
+                else if(response.SignOut){
+                    toastr.success('Nice job :)', 'Signed Out');
+                }
+                else{
+                    toastr.error('Could not sign in or out...', 'Error:');
+                }
             }, function(err){
-
+                toastr.error('Could not sign in or out', 'Error:');
             });
         }
 
-vm.commentsModal = commentsModal;
-        function commentsModal() {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                templateUrl: 'commentsModal.html',
-                controller: 'homeCtrl',
-                controllerAs: 'homeCtrl',
-                size: 'sm',
-                // resolve: {
-                //     items: function () {
-                //         return $ctrl.items;
-                //     }
-                // }
-            });
 
-            modalInstance.result.then(function (comment) {
-                vm.comments = comment;
-            }, function () {
-                console.log('Modal dismissed at: ' + new Date());
-            });
-        
+//move to directive
+vm.isVisible = false;
+        function showModal(){
+            vm.isVisible = true;
+            vm.comments = "";
+        }
+vm.cancel = cancel;
+        function cancel(){
+            vm.isVisible = false;
+            vm.comments = "";
+        }
+vm.ok = ok;
+        function ok(){            
+            signInSignOut();
         }
 
 
     }
-
-
-
 
 }());

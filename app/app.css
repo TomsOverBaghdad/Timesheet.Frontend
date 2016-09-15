@@ -1,3 +1,7 @@
+.center {
+	text-align: center;
+}
+
 a:hover{
 	color: #c0392b;
     text-decoration: none;

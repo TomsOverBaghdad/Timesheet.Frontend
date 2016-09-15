@@ -15,7 +15,7 @@
         return service;
 
         function GetTimesheet(timesheetId){
-            return $http.get('localhost:3000/api/timesheet/' + timesheetId)
+            return $http.jsonp('localhost:3000/api/timesheet/' + timesheetId)
                 .then(function (response) {
                     return response.data;
                 }, function (response) {

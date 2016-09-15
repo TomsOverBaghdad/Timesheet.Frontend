@@ -7,10 +7,11 @@
     		<div class="list-group-item-text"  style="padding-left: 30px; padding-top: 15px;">{{program.name}}</div>
     	</div>
     </div> -->
-    <h2 style="text-align: center;">{{homeCtrl.organizationName}} : {{homeCtrl.programName}}</h2>
+    <h2 class="center">{{homeCtrl.organizationName}} : {{homeCtrl.programName}}</h2>
+    <h3 class="center">{{homeCtrl.timesheetName}}</h3>
     <br>
-    <div style="text-align: center;" ng-form="homeCtrl.emailForm"
-    	ng-submit="homeCtrl.logTime()">
+    <div class="center" ng-form="homeCtrl.emailForm"
+    	ng-submit="homeCtrl.logTime()" ng-show="!homeCtrl.isVisible">
     	<label class="control-label"> Email: </label>
     	<label>
 			<input class="form-control" type="email" ng-model="homeCtrl.userEmail"></input>
@@ -20,19 +21,17 @@
 		</label>
     	
     	<a ng-if="homeCtrl.status.loading" class="fa fa-lg fa-spinner fa-spin"></a>
-    <div>
-    <button class="btn btn-warning" type="button" ng-click="homeCtrl.commentsModal()">comment</button>
+    </div>
+    <!-- <button class="btn btn-warning" type="button" ng-click="homeCtrl.showModal()">comment</button> -->
+
+    <div ng-show="homeCtrl.isVisible">
+        <label for="comment">What did you do today?</label>
+        <textarea class="form-control" rows="5" ng-model="homeCtrl.comments"></textarea>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="homeCtrl.ok()">Sign Out</button>
+            <button class="btn btn-warning" type="button" ng-click="homeCtrl.cancel()">Cancel</button>
+        </div>
+    </div>
 </div>
-<script type="text/ng-template" id="commentsModal.html">
-    <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">What did you do today?</h3>
-    </div>
-    <div class="modal-body" id="modal-body">
-        <textarea style="width: 268px; height: 80px;" ng-model="homeCtrl.comments"></textarea>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="homeCtrl.ok()">OK</button>
-        <button class="btn btn-warning" type="button" ng-click="homeCtrl.cancel()">Cancel</button>
-    </div>
-</script>
+
 
