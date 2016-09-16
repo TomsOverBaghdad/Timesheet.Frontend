@@ -4,6 +4,7 @@
   "description": "manage timesheets",
   "main": "index.js",
   "scripts": {
+	"prestart" : "npm_bower_install",
     "start": "http-server"
   },
   "author": "Tom Dror",
