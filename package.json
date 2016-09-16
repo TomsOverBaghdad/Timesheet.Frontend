@@ -4,12 +4,14 @@
   "description": "manage timesheets",
   "main": "index.js",
   "scripts": {
-	"prestart" : "npm install; bower install;",
-    "start": "http-server"
+    "prestart": "npm install; bower install;",
+    "start": "node server.js"
   },
   "author": "Tom Dror",
   "license": "ISC",
   "dependencies": {
-    "bower": "^1.7.9"
+    "bower": "^1.7.9",
+    "ejs": "^2.5.2",
+    "express": "^4.14.0"
   }
 }
