@@ -15,7 +15,7 @@
         return service;
 
         function GetTimesheet(timesheetId){
-            return $http.get(process.env.backendUrl + '/timesheet/' + timesheetId)
+            return $http.get(process.env.backendUrl + 'timesheet/' + timesheetId)
                 .then(function (response) {
                     return response.data;
                 }, function (response) {
@@ -34,7 +34,7 @@
 
         function SignInSignOut(timesheetId, userEmail, userComments) {
             var params = JSON.stringify({comments: userComments});
-            return $http.post(process.env.backendUrl + '/timesheet/' + timesheetId + '/Log/' + userEmail, params)
+            return $http.post(process.env.backendUrl + 'timesheet/' + timesheetId + '/Log/' + userEmail, params)
                 .then(function (response) {
                     return response.data;
                 }, function (response) {
