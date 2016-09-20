@@ -4,8 +4,8 @@
     angular.module('aviProject')
         .factory('homeService', homeService);
     
-    homeService.$inject = ['$http', '$q'];
-    function homeService($http, $q) {
+    homeService.$inject = ['$http', '$q', 'backendUrl'];
+    function homeService($http, $q, backendUrl) {
         var service = {};
 
         service.GetTimesheet = GetTimesheet;
@@ -15,7 +15,7 @@
         return service;
 
         function GetTimesheet(timesheetId){
-            return $http.get(process.env.backendUrl + 'timesheet/' + timesheetId)
+            return $http.get(backendUrl + 'timesheet/' + timesheetId)
                 .then(function (response) {
                     return response.data;
                 }, function (response) {
@@ -24,7 +24,7 @@
         }
 
         function GetLastLogged(userEmail) {
-            return $http.get(process.env.backendUrl + 'timesheet/GetLastLogged/' + userEmail)
+            return $http.get(backendUrl + 'timesheet/GetLastLogged/' + userEmail)
                 .then(function (response) {
                     return response.data;
                 }, function (response) {
@@ -34,7 +34,7 @@
 
         function SignInSignOut(timesheetId, userEmail, userComments) {
             var params = JSON.stringify({comments: userComments});
-            return $http.post(process.env.backendUrl + 'timesheet/' + timesheetId + '/Log/' + userEmail, params)
+            return $http.post(backendUrl + 'timesheet/' + timesheetId + '/Log/' + userEmail, params)
                 .then(function (response) {
                     return response.data;
                 }, function (response) {
