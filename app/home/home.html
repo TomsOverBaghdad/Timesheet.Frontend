@@ -1,28 +1,24 @@
-﻿<div>
-    <!-- <img src="http://mrwgifs.com/wp-content/uploads/2013/06/Come-See-How-Good-I-Look-Anchorman-Gif.gif"></img> -->
-  <!--   <h1>Time Sheets</h1>
-    <div class="list-group" ng-repeat="org in homeCtrl.organizations">
-    	<div class="list-group-item">{{org.name}}<a class='fa fa-lg fa-fw fa-plus pull-right'></a></div>
-    	<div class="list-group" style='margin-bottom: 0px!' ng-repeat="program in org.programs">
-    		<div class="list-group-item-text"  style="padding-left: 30px; padding-top: 15px;">{{program.name}}</div>
-    	</div>
-    </div> -->
+﻿<div class="center" ng-if="homeCtrl.status.loading">
+    <i class="fa fa-lg fa-spin fa-circle-o-notch"></i>
+</div>
+<div class="center" ng-if="homeCtrl.status.error">
+    <i class="fa fa-lg fa-exclamation-circle"></i>
+    <p>Uh Oh, something went wrong</p>
+</div>
+<div ng-if="homeCtrl.status.success">
     <h2 class="center">{{homeCtrl.organizationName}} : {{homeCtrl.programName}}</h2>
     <h3 class="center">{{homeCtrl.timesheetName}}</h3>
     <br>
-    <div class="center" ng-form="homeCtrl.emailForm"
-    	ng-submit="homeCtrl.logTime()" ng-show="!homeCtrl.isVisible">
+    <div class="center" ng-show="!homeCtrl.isVisible">
     	<label class="control-label"> Email: </label>
     	<label>
-			<input class="form-control" type="email" ng-model="homeCtrl.userEmail"></input>
+			<input class="form-control" name="useremail" type="email" ng-model="homeCtrl.userEmail" required></input>                  
     	</label>
     	<label>
-			<input class="btn btn-danger" style="margin-bottom: 2px;" type="submit" value="Sign In / Sign Out"></input>
+            <i class="fa fa-lg fa-spin fa-circle-o-notch" ng-if="homeCtrl.signinstatus.loading"></i>
+			<input class="btn btn-danger" ng-if="!homeCtrl.signinstatus.loading" style="margin-bottom: 2px;" type="submit" value="Sign In / Sign Out" ng-click="homeCtrl.ok()"></input>
 		</label>
-    	
-    	<a ng-if="homeCtrl.status.loading" class="fa fa-lg fa-spinner fa-spin"></a>
     </div>
-    <!-- <button class="btn btn-warning" type="button" ng-click="homeCtrl.showModal()">comment</button> -->
 
     <div ng-show="homeCtrl.isVisible">
         <label for="comment">What did you do today?</label>

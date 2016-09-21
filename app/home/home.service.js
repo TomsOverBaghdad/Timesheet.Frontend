@@ -15,21 +15,11 @@
         return service;
 
         function GetTimesheet(timesheetId){
-            return $http.get(backendUrl + 'timesheet/' + timesheetId)
-                .then(function (response) {
-                    return response.data;
-                }, function (response) {
-                    return $q.reject(response);
-                });
+            return get(backendUrl + 'timesheet/' + timesheetId);
         }
 
         function GetLastLogged(userEmail) {
-            return $http.get(backendUrl + 'timesheet/GetLastLogged/' + userEmail)
-                .then(function (response) {
-                    return response.data;
-                }, function (response) {
-                    return $q.reject(response);
-                });
+            return get(backendUrl + 'timesheet/GetLastLogged/' + userEmail);
         } 
 
         function SignInSignOut(timesheetId, userEmail, userComments) {
@@ -41,6 +31,16 @@
                     return $q.reject(response);
                 });
         }   
+
+        //todo move somewhere better
+        function get(url){
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    return $q.reject(response);
+                });
+        }
     }
 
 }());

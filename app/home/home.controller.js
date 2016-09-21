@@ -4,51 +4,74 @@
     angular.module('aviProject')
         .controller('homeCtrl', homeController);
 
-    homeController.$inject = ['homeService', '$stateParams', '$uibModal'];
-    function homeController(homeService, $stateParams, $uibModal) {
+    homeController.$inject = ['homeService', '$stateParams', 'toastr'];
+    function homeController(homeService, $stateParams, toastr) {
         var vm = this;
 
         vm.userEmail = "";
         vm.emailForm = null;
         vm.comments = "";
 
-        vm.organizationName = 'org'; //can we get this from the routing or something?
-        vm.programName = 'prog';
-        vm.timesheetName = 'timesheet';
+        vm.organizationName = null; //can we get this from the routing or something?
+        vm.programName = null;
+        vm.timesheetName = null;
 
+        vm.status = {};
         vm.TrySignInSignOut = TrySignInSignOut;
+        var timesheetId = $stateParams.timesheetId;
 
         init();
 
         function init(){
-            //get org name and program name
-            homeService.GetTimesheet($stateParams.timesheetId).then(function(timesheet){
+            resetUser();
+            vm.status = {loading : true};
+            homeService.GetTimesheet(timesheetId).then(function(timesheet){
+                vm.status = {success : true};
                 vm.programName = timesheet.programName;
                 vm.organizationName = timesheet.organizationName;  
                 vm.timesheetName = timesheet.timesheetName; 
             }, function(err){
+                vm.status = {error : true};
                 console.log(err);
             });
         }
 
+        function resetUser(){
+            vm.userEmail = "";
+            vm.emailForm = null;
+            vm.comments = "";
+        }
+
+        vm.signinstatus = {};
         function TrySignInSignOut(){
-            homeService.GetLastLogged(vm.userEmail).then(function(lastLog){
-                if(lastLog != null && lastLogged.DTEndLog == null && lastLogged.TimesheetId != req.params.timesheetId) {
-                    toastr.error('Did not log out from another timesheet', 'Error:');
-                }else if(lastLogged.DTEndLog){
+            if(vm.userEmail == "") {
+                toastr.info('Enter an email', "Error:");
+                return;
+            }            
+            vm.signinstatus = {loading : true};
+            homeService.GetLastLogged(vm.userEmail).then(function(lastLogged){
+                vm.signinstatus = {loading : false};
+                if(lastLogged == "" || lastLogged.DTEndLog){
                     //sign in
                     signInSignOut();
+                }
+                else if(lastLogged.TimesheetId != timesheetId) {
+                    toastr.info('Did not log out from another timesheet', 'Error:');
                 }else{
                     //signout, allow for comments
                     showModal();
                 }
+                resetUser();
             }, function(err){
+                vm.signinstatus = {error : true};
+                toastr.info('Could not sign in or out', 'Error:');
                 console.log(err);
+                resetUser();
             });
         }    
 
         function signInSignOut(){
-            homeService.SignInSignOut(vm.userEmail, vm.comments).then(function(response){
+            homeService.SignInSignOut(timesheetId, vm.userEmail, vm.comments).then(function(response){
                 if(response.SignIn){
                     toastr.success("Dont forget to sign out when you're done!", 'Signed In!');
                 }
@@ -56,10 +79,11 @@
                     toastr.success('Nice job :)', 'Signed Out');
                 }
                 else{
-                    toastr.error('Could not sign in or out...', 'Error:');
+                    toastr.info('Could not sign in or out...', 'Error:');
                 }
             }, function(err){
-                toastr.error('Could not sign in or out', 'Error:');
+                toastr.info('Could not sign in or out', 'Error:');
+                console.log(err);
             });
         }
 
@@ -77,7 +101,7 @@ vm.cancel = cancel;
         }
 vm.ok = ok;
         function ok(){            
-            signInSignOut();
+            TrySignInSignOut();
         }
 
 
