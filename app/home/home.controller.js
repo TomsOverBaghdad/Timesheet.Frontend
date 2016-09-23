@@ -40,6 +40,8 @@
             vm.userEmail = "";
             vm.emailForm = null;
             vm.comments = "";
+            vm.isVisible = false;
+            console.log("resetUser");
         }
 
         vm.signinstatus = {};
@@ -61,12 +63,10 @@
                     //signout, allow for comments
                     showModal();
                 }
-                resetUser();
             }, function(err){
                 vm.signinstatus = {error : true};
                 toastr.info('Could not sign in or out', 'Error:');
                 console.log(err);
-                resetUser();
             });
         }    
 
@@ -77,13 +77,16 @@
                 }
                 else if(response.SignOut){
                     toastr.success('Nice job :)', 'Signed Out');
+
                 }
                 else{
                     toastr.info('Could not sign in or out...', 'Error:');
                 }
+                resetUser();
             }, function(err){
                 toastr.info('Could not sign in or out', 'Error:');
                 console.log(err);
+                resetUser();
             });
         }
 
@@ -94,14 +97,15 @@ vm.isVisible = false;
             vm.isVisible = true;
             vm.comments = "";
         }
-vm.cancel = cancel;
+vm.cancel = resetUser;
         function cancel(){
             vm.isVisible = false;
             vm.comments = "";
         }
-vm.ok = ok;
-        function ok(){            
-            TrySignInSignOut();
+vm.signOut = signOut;
+        function signOut(){   
+            console.log('signing out ' + vm.userEmail);         
+            signInSignOut();
         }
 
 

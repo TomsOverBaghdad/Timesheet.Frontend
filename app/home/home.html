@@ -16,7 +16,7 @@
     	</label>
     	<label>
             <i class="fa fa-lg fa-spin fa-circle-o-notch" ng-if="homeCtrl.signinstatus.loading"></i>
-			<input class="btn btn-danger" ng-if="!homeCtrl.signinstatus.loading" style="margin-bottom: 2px;" type="submit" value="Sign In / Sign Out" ng-click="homeCtrl.ok()"></input>
+			<input class="btn btn-danger" ng-if="!homeCtrl.signinstatus.loading" style="margin-bottom: 2px;" type="submit" value="Sign In / Sign Out" ng-click="homeCtrl.TrySignInSignOut()"></input>
 		</label>
     </div>
 
@@ -24,7 +24,7 @@
         <label for="comment">What did you do today?</label>
         <textarea class="form-control" rows="5" ng-model="homeCtrl.comments"></textarea>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="homeCtrl.ok()">Sign Out</button>
+            <button class="btn btn-primary" type="button" ng-click="homeCtrl.signOut()">Sign Out</button>
             <button class="btn btn-warning" type="button" ng-click="homeCtrl.cancel()">Cancel</button>
         </div>
     </div>
