@@ -1,0 +1,35 @@
+﻿<section>
+    <div class="center" ng-if="timesheetCtrl.status.loading">
+        <i class="fa fa-lg fa-spin fa-circle-o-notch"></i>
+    </div>
+    <div class="center" ng-if="timesheetCtrl.status.error">
+        <i class="fa fa-lg fa-exclamation-circle"></i>
+        <p>Uh Oh, something went wrong</p>
+    </div>
+    <div ng-if="timesheetCtrl.status.success">
+        <h2 class="center">{{timesheetCtrl.organizationName}} : {{timesheetCtrl.programName}}</h2>
+        <h3 class="center">{{timesheetCtrl.timesheetName}}</h3>
+        <br>
+        
+    </div>
+</section>
+
+<div class="center" ng-show="!timesheetCtrl.isVisible">
+    <label class="control-label"> Email: </label>
+    <label>
+        <input class="form-control" ng-model="timesheetCtrl.userEmail" required></input>                  
+    </label>
+    <label>
+        <i class="fa fa-lg fa-spin fa-circle-o-notch" ng-if="timesheetCtrl.signinstatus.loading"></i>
+        <input class="btn btn-danger" ng-if="!timesheetCtrl.signinstatus.loading" style="margin-bottom: 2px;" type="submit" value="Sign In / Sign Out" ng-click="timesheetCtrl.TrySignInSignOut()"></input>
+    </label>
+</div>
+
+<div ng-show="timesheetCtrl.isVisible">
+    <label for="comment">What did you do today?</label>
+    <textarea class="form-control" rows="5" ng-model="timesheetCtrl.comments"></textarea>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="timesheetCtrl.signOut()">Sign Out</button>
+        <button class="btn btn-warning" type="button" ng-click="timesheetCtrl.cancel()">Cancel</button>
+    </div>
+</div>

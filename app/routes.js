@@ -12,12 +12,18 @@
                 //     controller: 'homeCtrl',
                 //     controllerAs: 'homeCtrl'
                 // })
-                .state('home', {
-                // .state('program.timesheet', {
+                .state('timesheet', {
                     url: '/timesheet/{timesheetId:int}',
-                    templateUrl: 'app/home/home.html',                    
-                    controller: 'homeCtrl',
-                    controllerAs: 'homeCtrl'
+                    templateUrl: 'app/timesheet/timesheet.html',                    
+                    controller: 'timesheetCtrl',
+                    controllerAs: 'timesheetCtrl'
+                })
+                .state('timesheetLog', {
+                // .state('program.timesheet', {
+                    url: '/timesheetLog/{timesheetId:int}',
+                    templateUrl: 'app/timesheetLog/timesheetLog.html',                    
+                    controller: 'timesheetLogCtrl',
+                    controllerAs: 'timesheetLogCtrl'
                 });
                 
 

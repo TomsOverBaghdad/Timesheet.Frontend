@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('aviProject')
-        .controller('homeCtrl', homeController);
+        .controller('timesheetCtrl', timesheetController);
 
-    homeController.$inject = ['homeService', '$stateParams', 'toastr'];
-    function homeController(homeService, $stateParams, toastr) {
+    timesheetController.$inject = ['timesheetService', '$stateParams', 'toastr'];
+    function timesheetController(timesheetService, $stateParams, toastr) {
         var vm = this;
 
         vm.userEmail = "";
@@ -25,11 +25,11 @@
         function init(){
             resetUser();
             vm.status = {loading : true};
-            homeService.GetTimesheet(timesheetId).then(function(timesheet){
+            timesheetService.GetTimesheetInfo(timesheetId).then(function(timesheetInfo){
                 vm.status = {success : true};
-                vm.programName = timesheet.programName;
-                vm.organizationName = timesheet.organizationName;  
-                vm.timesheetName = timesheet.timesheetName; 
+                vm.programName = timesheetInfo.programName;
+                vm.organizationName = timesheetInfo.organizationName;  
+                vm.timesheetName = timesheetInfo.timesheetName; 
             }, function(err){
                 vm.status = {error : true};
                 console.log(err);
@@ -41,7 +41,6 @@
             vm.emailForm = null;
             vm.comments = "";
             vm.isVisible = false;
-            console.log("resetUser");
         }
 
         vm.signinstatus = {};
@@ -51,7 +50,7 @@
                 return;
             }            
             vm.signinstatus = {loading : true};
-            homeService.GetLastLogged(vm.userEmail).then(function(lastLogged){
+            timesheetService.GetLastLogged(vm.userEmail).then(function(lastLogged){
                 vm.signinstatus = {loading : false};
                 if(lastLogged == "" || lastLogged.DTEndLog){
                     //sign in
@@ -71,7 +70,7 @@
         }    
 
         function signInSignOut(){
-            homeService.SignInSignOut(timesheetId, vm.userEmail, vm.comments).then(function(response){
+            timesheetService.SignInSignOut(timesheetId, vm.userEmail, vm.comments).then(function(response){
                 if(response.SignIn){
                     toastr.success("Dont forget to sign out when you're done!", 'Signed In!');
                 }
@@ -103,8 +102,7 @@ vm.cancel = resetUser;
             vm.comments = "";
         }
 vm.signOut = signOut;
-        function signOut(){   
-            console.log('signing out ' + vm.userEmail);         
+        function signOut(){       
             signInSignOut();
         }
 

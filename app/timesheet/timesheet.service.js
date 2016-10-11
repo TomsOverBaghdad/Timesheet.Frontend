@@ -2,13 +2,14 @@
     'use strict';
     
     angular.module('aviProject')
-        .factory('homeService', homeService);
+        .factory('timesheetService', timesheetService);
     
-    homeService.$inject = ['$http', '$q', 'backendUrl'];
-    function homeService($http, $q, backendUrl) {
+    timesheetService.$inject = ['$http', '$q', 'backendUrl'];
+    function timesheetService($http, $q, backendUrl) {
         var service = {};
 
         service.GetTimesheet = GetTimesheet;
+        service.GetTimesheetInfo = GetTimesheetInfo;
         service.GetLastLogged = GetLastLogged;
         service.SignInSignOut = SignInSignOut;
 
@@ -16,6 +17,10 @@
 
         function GetTimesheet(timesheetId){
             return get(backendUrl + 'timesheet/' + timesheetId);
+        }
+
+        function GetTimesheetInfo(timesheetId){
+            return get(backendUrl + 'timesheet/' + timesheetId + '/info');
         }
 
         function GetLastLogged(userEmail) {
