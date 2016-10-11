@@ -36,7 +36,6 @@
             }, function(err){
                 console.log(err);
             });
-
         }
 
         function getTimesheet(){
