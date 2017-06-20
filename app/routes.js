@@ -21,7 +21,7 @@
                 .state('timesheetLog', {
                 // .state('program.timesheet', {
                     url: '/timesheetLog/{timesheetId:int}',
-                    templateUrl: 'app/timesheetLog/log/log.html',                    
+                    templateUrl: 'app/timesheetLog/timesheetLog.html',                    
                     controller: 'timesheetLogCtrl',
                     controllerAs: 'timesheetLogCtrl'
                 });
