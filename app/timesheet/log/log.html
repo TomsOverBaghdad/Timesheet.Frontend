@@ -1,0 +1,49 @@
+﻿<section>
+    <h2 class="center">{{timesheetLogCtrl.organizationName}} : {{timesheetLogCtrl.programName}}</h2>
+    <h3 class="center">{{timesheetLogCtrl.timesheetName}}</h3>   
+</section>
+
+<h3>{{timesheetLogCtrl.hoursLogged()}}</h3>
+<h1 class="pull-right">{{timesheetLogCtrl.hoursLogged()}}</h1>
+<table st-table="timesheetLogCtrl.displayed" st-safe-src="timesheetLogCtrl.timesheetLogs" 
+    class="table table-striped table-condensed table-responsive" >
+    <thead>
+        <tr>
+            <th ng-repeat="col in timesheetLogCtrl.columns" st-sort="{{col.field}}">
+                {{col.name}}
+            </th>        
+        </tr>
+        <tr>
+            <th ng-repeat="col in timesheetLogCtrl.columns">
+                <input st-search="{{col.field}}" placeholder="search for {{col.name}}" class="input-sm form-control" type="search"/>        
+            </th>
+        </tr>
+    </thead>
+    <tbody ng-show="!!timesheetLogCtrl.status.success">
+        <tr ng-repeat="log in timesheetLogCtrl.displayed">
+            <td>{{log.UserEmail}}</td>
+            <td>{{log.DTStartLog | date:'medium'}}</td>
+            <td>{{log.DTEndLog | date:'medium'}}</td>
+            <td>{{log.Comments | limitTo: 57}}<span ng-if="log.Comments.length > 57">...<span></td>
+            <td><input  type="checkbox" ng-checked="timesheetLogCtrl.isTimeWeird(log.DTStartLog, log.DTEndLog, 4)"/></td>
+        </tr>
+         <tr ng-show="timesheetLogCtrl.status.loading">
+            <td>
+                <i class="fa fa-lg fa-spin fa-circle-o-notch"></i>
+            </td>
+         </tr>
+        <tr ng-show="timesheetLogCtrl.status.error">
+            <td>
+                <i class="fa fa-lg fa-exclamation-circle"></i>
+                <p>Uh Oh, something went wrong</p>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="{{timesheetLogCtrl.columns.length}}" class="text-center">
+                <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="20"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
