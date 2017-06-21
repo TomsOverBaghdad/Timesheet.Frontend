@@ -3,9 +3,10 @@
     <h3 class="center">{{timesheetLogCtrl.timesheetName}}</h3>   
 </section>
 
-
+<h3>Total Time Logged: {{timesheetLogCtrl.hoursLogged()}}</h3>
+<h4>Logs not counted (the one's in red) {{timesheetLogCtrl.badLogs}}</h4>
 <table st-table="timesheetLogCtrl.displayed" st-safe-src="timesheetLogCtrl.timesheetLogs" 
-    class="table table-striped table-condensed table-responsive" >
+    class="table table-striped table-condensed table-responsive" poop="timesheetLogCtrl.poop">
     <thead>
         <tr>
             <th ng-repeat="col in timesheetLogCtrl.columns" st-sort="{{col.field}}">
@@ -14,16 +15,17 @@
         </tr>
         <tr>
             <th ng-repeat="col in timesheetLogCtrl.columns">
-                <input st-search="{{col.field}}" placeholder="search for {{col.name}}" class="input-sm form-control" type="search"/>        
+                <input st-search="{{col.field}}" placeholder="search for {{col.name}}" class="input-sm form-control" type="search" ng-show="col.field != null"/>        
             </th>
         </tr>
     </thead>
     <tbody ng-show="!!timesheetLogCtrl.status.success">
-        <tr ng-repeat="log in timesheetLogCtrl.displayed">
+        <tr ng-repeat="log in timesheetLogCtrl.displayed" ng-style="{ background: log.isTimeWeird ? timesheetLogCtrl.isTimeWeirdClass : '' }">
             <td>{{log.UserEmail}}</td>
             <td>{{log.DTStartLog | date:'medium'}}</td>
             <td>{{log.DTEndLog | date:'medium'}}</td>
             <td>{{log.Comments}}</td>
+            <td><input  type="checkbox" ng-checked="!log.isTimeWeird"/></td>
         </tr>
          <tr ng-show="timesheetLogCtrl.status.loading">
             <td>

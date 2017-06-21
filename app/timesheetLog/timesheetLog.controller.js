@@ -14,16 +14,23 @@
             { name: "Logged In", field: "DTStartLog" },
             { name: "Logged Out", field: "DTEndLog" },
             { name: "Comments", field: "Comments" },
+            { name: "Count Log?" }
         ]
         vm.timesheetLogs = [];
         vm.displayed = [];
+        var stFilteredCollection = null;
 
 //todo move timesheet info to directive
         vm.organizationName = null;
         vm.programName = null;
         vm.timesheetName = null;
+        vm.isTimeWeirdClass = "#ffc2c2";
 
         vm.status = {};
+
+        vm.hoursLogged = hoursLogged;
+        vm.badLogs = null;
+        vm.poop = poop;
 
         init();
 
@@ -47,6 +54,65 @@
                 vm.status = {error: true};
                 console.log(err);
             });
+        }
+
+        function hoursLogged(){
+            var hours = 0;
+            var searchCollection = filteredCollection() || vm.timesheetLogs;
+            vm.badLogs = 0;
+            searchCollection.forEach(function(log) {
+                if(!log.DTEndLog) return;
+
+                var start = moment(log.DTStartLog);
+                var end = moment(log.DTEndLog);
+                var d = moment.duration(end - start);
+
+                log.duration = d;
+                if (!isTimeWeird(d, 5)) {
+                    hours += d;
+                    log.isTimeWeird = false;
+                } else {
+                    vm.badLogs++;
+                    log.isTimeWeird = true;
+                }
+                
+            });
+            return formatDuration(moment.duration(hours));
+        }
+
+        function isTimeWeird(duration, hours){
+            if (duration) {
+                return duration.asHours() > 5;
+            }
+            return false;
+        }
+
+        function formatDuration(duration){
+            var format = "";
+            if(duration.days()){
+                format += "Days: " + duration.days() + " ";
+            } 
+            if(duration.hours()){
+                format += "Hours: " + duration.hours() + " ";
+            } 
+            if(duration.minutes()){
+                format += "Minutes: " + duration.minutes() + " ";
+            } 
+            if(duration.seconds()){
+                format += "Seconds: " + duration.seconds() + " ";
+            }
+            return format;
+        }
+
+        function poop(stCtrl) {
+            stFilteredCollection = stCtrl;
+        }
+
+        function filteredCollection(){
+            if (stFilteredCollection) {
+                return stFilteredCollection.getFilteredCollection();
+            }
+            return null;
         }
     }
 
