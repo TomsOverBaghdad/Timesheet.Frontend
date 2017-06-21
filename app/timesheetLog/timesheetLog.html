@@ -4,7 +4,7 @@
 </section>
 
 <h3>Total Time Logged: {{timesheetLogCtrl.hoursLogged()}}</h3>
-<h4>Logs not counted (the one's in red) {{timesheetLogCtrl.badLogs}}</h4>
+<h4>Logs not counted (the red lines): {{timesheetLogCtrl.badLogs}}</h4>
 <table st-table="timesheetLogCtrl.displayed" st-safe-src="timesheetLogCtrl.timesheetLogs" 
     class="table table-striped table-condensed table-responsive" poop="timesheetLogCtrl.poop">
     <thead>
@@ -22,8 +22,10 @@
     <tbody ng-show="!!timesheetLogCtrl.status.success">
         <tr ng-repeat="log in timesheetLogCtrl.displayed" ng-style="{ background: log.isTimeWeird ? timesheetLogCtrl.isTimeWeirdClass : '' }">
             <td>{{log.UserEmail}}</td>
-            <td>{{log.DTStartLog | date:'medium'}}</td>
-            <td>{{log.DTEndLog | date:'medium'}}</td>
+            <td>{{log.DisplayStart}}</td>
+            <td>{{log.DisplayEnd}}</td> 
+          <!--   <td>{{log.DTStartLog | date:'medium'}}</td>
+            <td>{{log.DTEndLog | date:'medium'}}</td> -->
             <td>{{log.Comments}}</td>
             <td><input  type="checkbox" ng-checked="!log.isTimeWeird"/></td>
         </tr>

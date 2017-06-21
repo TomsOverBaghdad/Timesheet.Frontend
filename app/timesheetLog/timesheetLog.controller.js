@@ -11,8 +11,8 @@
 
         vm.columns = [
             { name: "User", field: "UserEmail" },
-            { name: "Logged In", field: "DTStartLog" },
-            { name: "Logged Out", field: "DTEndLog" },
+            { name: "Logged In", field: "DisplayStart" },
+            { name: "Logged Out", field: "DisplayEnd" },
             { name: "Comments", field: "Comments" },
             { name: "Count Log?" }
         ]
@@ -49,13 +49,37 @@
             vm.status = {loading: true};
             timesheetService.GetTimesheet(timesheetId).then(function(timesheetLogs){
                 vm.status = {success: true};
-                vm.timesheetLogs = timesheetLogs
+                vm.timesheetLogs = timesheetLogs;
+                formatLogs();
             }, function(err){
                 vm.status = {error: true};
                 console.log(err);
             });
         }
 
+        //used strictly to format the inital logs so dates can be searchable 
+        //and duration and flags can be added
+        function formatLogs(){
+            vm.timesheetLogs.forEach(function(log) {
+                if(log.DTStartLog) {
+                    log.DisplayStart = moment(log.DTStartLog).format('lll');
+                }
+                if(log.DTEndLog){                    
+                    log.DisplayEnd = moment(log.DTEndLog).format('lll');
+                }
+
+                if(!log.DTEndLog) return;
+             
+                var start = moment(log.DTStartLog);
+                var end = moment(log.DTEndLog);
+                var d = moment.duration(end - start);
+
+                log.duration = d;
+                log.isTimeWeird = isTimeWeird(d, 5);           
+            });
+        }
+
+        //ran on ever filter to generat dynamic info
         function hoursLogged(){
             var hours = 0;
             var searchCollection = filteredCollection() || vm.timesheetLogs;
@@ -63,19 +87,11 @@
             searchCollection.forEach(function(log) {
                 if(!log.DTEndLog) return;
 
-                var start = moment(log.DTStartLog);
-                var end = moment(log.DTEndLog);
-                var d = moment.duration(end - start);
-
-                log.duration = d;
-                if (!isTimeWeird(d, 5)) {
-                    hours += d;
-                    log.isTimeWeird = false;
+                if (!log.isTimeWeird) {
+                    hours += log.duration;
                 } else {
                     vm.badLogs++;
-                    log.isTimeWeird = true;
-                }
-                
+                }                
             });
             return formatDuration(moment.duration(hours));
         }
@@ -104,6 +120,7 @@
             return format;
         }
 
+        //hack to get filtered collection from smart table library
         function poop(stCtrl) {
             stFilteredCollection = stCtrl;
         }
