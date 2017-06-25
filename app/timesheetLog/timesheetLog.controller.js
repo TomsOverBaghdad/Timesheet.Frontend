@@ -47,10 +47,10 @@
 
         function getTimesheet(){
             vm.status = {loading: true};
-            timesheetService.GetTimesheet(timesheetId).then(function(timesheetLogs){
-                vm.status = {success: true};
+            timesheetService.GetTimesheet(timesheetId).then(function(timesheetLogs){                
                 vm.timesheetLogs = timesheetLogs;
                 formatLogs();
+                vm.status = {success: true};
             }, function(err){
                 vm.status = {error: true};
                 console.log(err);

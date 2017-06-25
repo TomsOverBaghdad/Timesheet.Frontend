@@ -51,7 +51,6 @@
             }            
             vm.signinstatus = {loading : true};
             timesheetService.GetLastLogged(vm.userEmail).then(function(lastLogged){
-                vm.signinstatus = {loading : false};
                 if(lastLogged == "" || lastLogged.DTEndLog){
                     //sign in
                     signInSignOut();
@@ -62,6 +61,7 @@
                     //signout, allow for comments
                     showModal();
                 }
+                vm.signinstatus = {loading : false};
             }, function(err){
                 vm.signinstatus = {error : true};
                 toastr.info('Could not sign in or out', 'Error:');
